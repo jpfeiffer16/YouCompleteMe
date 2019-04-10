@@ -278,16 +278,19 @@ let g:ycm_java_jdtls_use_clean_workspace =
 let g:ycm_python_binary_path =
       \ get( g:, 'ycm_python_binary_path', '' )
 
-if has( 'vim_starting' ) " Loading at startup.
-  " We defer loading until after VimEnter to allow the gui to fork (see
-  " `:h gui-fork`) and avoid a deadlock situation, as explained here:
-  " https://github.com/Valloric/YouCompleteMe/pull/2473#issuecomment-267716136
-  augroup youcompletemeStart
-    autocmd!
-    autocmd VimEnter * call youcompleteme#Enable()
-  augroup END
-else " Manual loading with :packadd.
-  call youcompleteme#Enable()
+let choice  = confirm("Load ycm?", "&Yes\n&No\n", 1)
+if choice == 1
+  if has( 'vim_starting' ) " Loading at startup.
+    " We defer loading until after VimEnter to allow the gui to fork (see
+    " `:h gui-fork`) and avoid a deadlock situation, as explained here:
+    " https://github.com/Valloric/YouCompleteMe/pull/2473#issuecomment-267716136
+    augroup youcompletemeStart
+      autocmd!
+      autocmd VimEnter * call youcompleteme#Enable()
+    augroup END
+  else " Manual loading with :packadd.
+    call youcompleteme#Enable()
+  endif
 endif
 
 " This is basic vim plugin boilerplate
